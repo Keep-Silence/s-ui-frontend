@@ -34,7 +34,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 2000,
     rollupOptions: {
       output: {
-        inlineDynamicImports: true,
+        codeSplitting: false,
         entryFileNames: getUniqueFileName('assets/[name].js'),
         chunkFileNames: getUniqueFileName('assets/[name].js'),
         assetFileNames: (assetInfo) => {

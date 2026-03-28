@@ -253,7 +253,7 @@ const reloadSys = async () => {
   }
 }
 
-let intervalId: NodeJS.Timeout | null = null
+let intervalId: ReturnType<typeof setInterval> | null = null
 
 const startTimer = () => {
   intervalId = setInterval(() => {
