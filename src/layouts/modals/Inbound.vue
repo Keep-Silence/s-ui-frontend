@@ -276,7 +276,7 @@ export default {
       set(v:number[]) { this.inbound.nodes = v.length == 0 ?  [] : v.sort() }
     },
     inboundNodes() {
-      return (Data().nodes?? []).map(i => { return { title: i.name, value: i.id } })
+      return (Data().nodes?? []).map((i: any) => { return { title: i.name, value: i.id } })
     },
     validate() {
       if (this.inbound == undefined) return false
@@ -305,13 +305,13 @@ export default {
     "inbound.nodes"(newValue) {
       if (newValue && this.HasInData.includes(this.inbound.type)) {
         let nodes = (Data().nodes?? [])
-        this.inbound.addrs = newValue.map((x: number) => ({server: nodes.filter(i => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
+        this.inbound.addrs = newValue.map((x: number) => ({server: nodes.filter((i: any) => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
       }
     },
     "inbound.type"(newValue) {
       if (this.HasInData.includes(newValue) && this.inbound.nodes) {
         let nodes = (Data().nodes?? [])
-        this.inbound.addrs = this.inbound.nodes.map(x => ({server: nodes.filter(i => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
+        this.inbound.addrs = this.inbound.nodes.map(x => ({server: nodes.filter((i: any) => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
       }
     }
   },

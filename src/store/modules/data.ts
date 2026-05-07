@@ -18,6 +18,7 @@ const Data = defineStore('Data', {
     services: <any[]>[],
     endpoints: <any[]>[],
     clients: <any>[],
+    nodes: <any>[],
     tlsConfigs: <any[]>[],
   }),
   actions: {
