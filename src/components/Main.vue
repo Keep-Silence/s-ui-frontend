@@ -47,7 +47,7 @@
               </v-row>
             </v-card>
           </v-dialog>
-          <v-btn variant="tonal" hide-details 
+          <v-btn variant="tonal" hide-details
             style="margin-inline-start: 10px;" elevation="3"
             @click="backupModal.visible = true">{{ $t('main.backup.title') }}<v-icon icon="mdi-backup-restore" />
           </v-btn>
@@ -74,8 +74,8 @@
               </template>
               <template v-if="i == 'h-net'">
                 <v-icon icon="mdi-information" color="primary" size="small"
-                  v-tooltip:top="'↓' + 
-                  HumanReadable.sizeFormat(tilesData.net?.recv) + ' - ' + 
+                  v-tooltip:top="'↓' +
+                  HumanReadable.sizeFormat(tilesData.net?.recv) + ' - ' +
                   HumanReadable.sizeFormat(tilesData.net?.sent) + '↑'"
                   style="margin-inline-start: 10px;">
                 </v-icon>
@@ -129,7 +129,7 @@
                 <v-row>
                   <v-col cols="4">{{ $t('main.info.running') }}</v-col>
                   <v-col cols="8">
-                    <v-chip density="compact" color="success" variant="flat" v-if="tilesData.sbd?.running">{{ $t('yes') }}</v-chip> 
+                    <v-chip density="compact" color="success" variant="flat" v-if="tilesData.sbd?.running">{{ $t('yes') }}</v-chip>
                     <v-chip density="compact" color="error" variant="flat" v-else>{{ $t('no') }}</v-chip>
                     <v-chip density="compact" color="transparent" v-if="tilesData.sbd?.running && !loading" style="cursor: pointer;" @click="restartSingbox()">
                       <v-tooltip activator="parent" location="top">
@@ -142,7 +142,7 @@
                   <v-col cols="8">
                     <v-chip density="compact" color="primary" variant="flat" v-if="tilesData.sbd?.stats?.Alloc">
                       {{ HumanReadable.sizeFormat(tilesData.sbd?.stats?.Alloc) }}
-                    </v-chip> 
+                    </v-chip>
                   </v-col>
                   <v-col cols="4">{{ $t('main.info.threads') }}</v-col>
                   <v-col cols="8">
@@ -175,6 +175,13 @@
                           <span v-for="o in Data().onlines.outbound">{{ o }}<br /></span>
                         </v-tooltip>
                         {{ Data().onlines.outbound?.length }}
+                      </v-chip>
+                      <v-chip density="compact" color="warning" variant="flat" v-if="Data().onlines.node">
+                        <v-tooltip activator="parent" location="top" :text="$t('pages.nodes')">
+                          <span v-text="$t('pages.nodes')" style="font-weight: bold;"></span><br/>
+                          <span v-for="n in Data().onlines.node">{{ n }}<br /></span>
+                        </v-tooltip>
+                        {{ Data().onlines.node?.length }}
                       </v-chip>
                     </template>
                   </v-col>

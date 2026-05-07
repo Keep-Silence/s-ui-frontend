@@ -6,12 +6,12 @@ import { Inbound } from '@/types/inbounds'
 import { Client } from '@/types/clients'
 
 const Data = defineStore('Data', {
-  state: () => ({ 
+  state: () => ({
     lastLoad: 0,
     reloadItems: localStorage.getItem("reloadItems")?.split(',')?? <string[]>[],
     subURI: "",
     enableTraffic: false,
-    onlines: {inbound: <string[]>[], outbound: <string[]>[], user: <string[]>[]},
+    onlines: {inbound: <string[]>[], outbound: <string[]>[], user: <string[]>[], node: <string[]>[]},
     config: <any>{},
     inbounds: <any[]>[],
     outbounds: <any[]>[],
@@ -32,7 +32,7 @@ const Data = defineStore('Data', {
             message: msg.obj.lastLog
           })
         }
-        
+
         if (msg.obj.config) {
           this.setNewData(msg.obj)
         }

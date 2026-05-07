@@ -129,6 +129,23 @@ export default {
     }
   },
   methods: {
+    // 为不同 node 生成颜色
+    getNodeColor(node: string, index: number, isUpload: boolean, isBackground: boolean = false) {
+      // 预定义的颜色数组
+      const colors = [
+        { up: [255, 165, 0], down: [0, 128, 0] },     // 橙/绿
+        { up: [255, 0, 0], down: [0, 0, 255] },       // 红/蓝
+        { up: [128, 0, 128], down: [0, 128, 128] },   // 紫/青
+        { up: [255, 192, 203], down: [75, 0, 130] },  // 粉/靛
+        { up: [255, 140, 0], down: [32, 178, 170] },  // 深橙/海绿
+        { up: [220, 20, 60], down: [30, 144, 255] },  // 猩红/道奇蓝
+      ]
+      const colorSet = colors[index % colors.length]
+      const rgb = isUpload ? colorSet.up : colorSet.down
+      const alpha = isBackground ? (isUpload ? 0.4 : 0.2) : 1
+      return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`
+    },
+
     async loadData() {
       this.loading = true
       const data = await HttpUtils.get('api/stats', { resource: this.resource, tag: this.tag, limit: this.limit })
@@ -142,37 +159,63 @@ export default {
           steps.push(now - (oneStep * i))
         }
         const labels = <string[]>[]
-        const uplinkData = <number[]>[]
-        const downlinkData = <number[]>[]
-        for (let i = 1; i<360; i++) {
-          labels.push(this.genLable(steps[i],l))
-          let upSum:number
-          let downSum:number
-          const upTraffics = obj.filter(o => o.direction && o.dateTime*1000 < steps[i] && o.dateTime*1000 > steps[i-1]).map((o:any) => o.traffic)
-          upSum = upTraffics.length>0 ? upTraffics.reduce(u => u) : null
-          const downTraffics = obj.filter(o => !o.direction && o.dateTime*1000 < steps[i] && o.dateTime*1000 > steps[i-1]).map((o:any) => o.traffic)
-          downSum = downTraffics.length>0 ? downTraffics.reduce(d => d) : null
-          uplinkData.push(upSum)
-          downlinkData.push(downSum)
+
+        // 获取所有唯一的 node 值
+        const nodes = [...new Set(obj.map(o => o.node).filter(n => n))]
+
+        // 为每个 node 创建上传和下载数据数组
+        const nodeData = new Map<string, { uplink: (number | null)[], downlink: (number | null)[] }>()
+        nodes.forEach(node => {
+          nodeData.set(node, { uplink: [], downlink: [] })
+        })
+
+        for (let i = 1; i < 360; i++) {
+          labels.push(this.genLable(steps[i], l))
+
+          // 处理每个 node 的数据
+          nodes.forEach(node => {
+            const nodeObj = obj.filter(o => o.node === node)
+
+            // 上传数据 (direction = true)
+            const upTraffics = nodeObj.filter(o => o.direction && o.dateTime * 1000 < steps[i] && o.dateTime * 1000 > steps[i - 1]).map((o: any) => o.traffic)
+            const upSum = upTraffics.length > 0 ? upTraffics.reduce((u: number, v: number) => u + v, 0) : null
+
+            // 下载数据 (direction = false)
+            const downTraffics = nodeObj.filter(o => !o.direction && o.dateTime * 1000 < steps[i] && o.dateTime * 1000 > steps[i - 1]).map((o: any) => o.traffic)
+            const downSum = downTraffics.length > 0 ? downTraffics.reduce((d: number, v: number) => d + v, 0) : null
+
+            nodeData.get(node)!.uplink.push(upSum)
+            nodeData.get(node)!.downlink.push(downSum)
+          })
         }
+
+        // 构建 datasets
+        const datasets: any[] = []
+        nodes.forEach((node, index) => {
+          const data = nodeData.get(node)!
+
+          // 上传数据集
+          datasets.push({
+            label: `${node} - ${i18n.global.t('stats.upload')}`,
+            backgroundColor: this.getNodeColor(node, index, true, true),
+            borderColor: this.getNodeColor(node, index, true, false),
+            fill: true,
+            data: data.uplink
+          })
+
+          // 下载数据集
+          datasets.push({
+            label: `${node} - ${i18n.global.t('stats.download')}`,
+            backgroundColor: this.getNodeColor(node, index, false, true),
+            borderColor: this.getNodeColor(node, index, false, false),
+            fill: true,
+            data: data.downlink
+          })
+        })
+
         this.usage = {
           labels: labels,
-          datasets: [
-            {
-              label: i18n.global.t('stats.upload'),
-              backgroundColor: 'rgba(255, 165, 0, 0.4)',
-              borderColor: 'rgba(255, 165, 0)',
-              fill: true,
-              data: uplinkData
-            },
-            {
-              label: i18n.global.t('stats.download'),
-              backgroundColor: 'rgba(0, 128, 0, 0.2)',
-              borderColor: 'rgba(0, 128, 0)',
-              fill: true,
-              data: downlinkData
-            }
-          ],
+          datasets: datasets
         }
         this.loaded = true
         this.alert = false

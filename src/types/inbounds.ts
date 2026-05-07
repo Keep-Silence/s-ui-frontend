@@ -1,7 +1,7 @@
-import { iMultiplex } from "./multiplex"
-import { iTls } from "./tls"
-import { Dial } from "./dial"
-import { Transport } from "./transport"
+import {iMultiplex} from "./multiplex"
+import {iTls} from "./tls"
+import {Dial} from "./dial"
+import {Transport} from "./transport"
 
 export const InTypes = {
   Direct: 'direct',
@@ -52,6 +52,7 @@ interface InboundBasics extends Listen {
   type: InType
   tag: string
   tls_id: number
+  nodes: number[]
   addrs?: Addr[]
   out_json?: any
 }
@@ -235,6 +236,5 @@ const defaultValues: Record<InType, Inbound> = {
 }
 
 export function createInbound<T extends Inbound>(type: InType,json?: Partial<T>): Inbound {
-  const defaultObject: Inbound = { ...defaultValues[type] ?? {}, ...(json ?? {}) }
-  return defaultObject
+  return {...defaultValues[type] ?? {}, ...(json ?? {})}
 }

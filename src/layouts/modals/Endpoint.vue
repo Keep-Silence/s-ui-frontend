@@ -70,7 +70,7 @@ export default {
   emits: ['close'],
   data() {
     return {
-      endpoint: createEndpoint("wireguard",{ "tag": "" }),
+      endpoint: createEndpoint("wireguard",{ "tag": "", "ext": {} }),
       title: "add",
       tab: "t1",
       loading: false,
@@ -95,7 +95,7 @@ export default {
     async changeType() {
       // Tag change only in add endpoint
       const tag = this.endpoint.type + "-" + RandomUtil.randomSeq(3)
-      
+
       // Use previous data
       let prevConfig = {}
       switch (this.endpoint.type) {
@@ -131,7 +131,7 @@ export default {
     },
     async saveChanges() {
       if (!this.$props.visible) return
-      
+
       // check duplicate tag
       const isDuplicatedTag = Data().checkTag("endpoint",this.endpoint.id, this.endpoint.tag)
       if (isDuplicatedTag) return

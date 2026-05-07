@@ -26,6 +26,20 @@
             <v-col cols="12" sm="6" md="4">
               <v-text-field v-model="inbound.tag" :label="$t('objects.tag')" hide-details></v-text-field>
             </v-col>
+            <v-col cols="12" sm="24" md="24">
+              <v-select
+                v-model="selectedNodes"
+                :items="inboundNodes"
+                :label="$t('objects.nodes')"
+                clearable
+                multiple
+                chips
+                hide-details>
+                <template v-slot:append>
+                  <v-icon @click="setAllNodes" icon="mdi-set-all" v-tooltip:top="$t('all')" />
+                </template>
+              </v-select>
+            </v-col>
           </v-row>
           <v-tabs
             v-if="HasInData.includes(inbound.type)"
@@ -124,7 +138,7 @@ export default {
   emits: ['close'],
   data() {
     return {
-      inbound: createInbound("direct",{ id:0, "tag": "" }),
+      inbound: createInbound("direct",{ id:0, "tag": "", nodes: [] }),
       title: "add",
       loading: false,
       side: "s",
@@ -170,6 +184,9 @@ export default {
     }
   },
   methods: {
+    setAllNodes(){
+      this.inbound.nodes = this.inboundNodes.map((i:any) => i.value)
+    },
     async loadData(id: number) {
       this.loading = true
       const inboundArray = await Data().loadInbounds([id])
@@ -186,7 +203,7 @@ export default {
       }
       else {
         const port = RandomUtil.randomIntRange(10000, 60000)
-        this.inbound = createInbound("direct",{ id: 0, tag: "direct-"+port ,listen: "::", listen_port: port })
+        this.inbound = createInbound("direct",{ id: 0, tag: "direct-"+port ,listen: "::", listen_port: port, nodes: [] })
         if (this.HasInData.includes(this.inbound.type)){
           this.inbound.addrs = []
           this.inbound.out_json = {}
@@ -196,6 +213,7 @@ export default {
         }
         this.title = "add"
         this.loading = false
+        this.setAllNodes()
       }
       this.side = "s"
       this.initUsers = {
@@ -208,8 +226,8 @@ export default {
       // Tag change only in add inbound
       const tag = this.$props.id > 0 ? this.inbound.tag : this.inbound.type + "-" + this.inbound.listen_port
       // Use previous data
-      const prevConfig = { id: this.inbound.id, tag: tag, listen: this.inbound.listen?? "::", listen_port: this.inbound.listen_port }
-      this.inbound = createInbound(this.inbound.type, this.inbound.type != this.inTypes.Tun ? prevConfig : { tag: tag })
+      const prevConfig = { id: this.inbound.id, tag: tag, listen: this.inbound.listen?? "::", listen_port: this.inbound.listen_port, nodes: this.inbound.nodes }
+      this.inbound = createInbound(this.inbound.type, this.inbound.type != this.inTypes.Tun ? prevConfig : { tag: tag, nodes: [] })
       if (this.HasInData.includes(this.inbound.type)){
         this.inbound.addrs = []
         this.inbound.out_json = {}
@@ -253,6 +271,13 @@ export default {
     },
   },
   computed: {
+    selectedNodes: {
+      get() { return this.inbound.nodes.length>0 ? this.inbound.nodes.sort() : [] },
+      set(v:number[]) { this.inbound.nodes = v.length == 0 ?  [] : v.sort() }
+    },
+    inboundNodes() {
+      return (Data().nodes?? []).map(i => { return { title: i.name, value: i.id } })
+    },
     validate() {
       if (this.inbound == undefined) return false
       if (this.inbound.tag == "") return false
@@ -277,6 +302,18 @@ export default {
         this.loading = true
       }
     },
+    "inbound.nodes"(newValue) {
+      if (newValue && this.HasInData.includes(this.inbound.type)) {
+        let nodes = (Data().nodes?? [])
+        this.inbound.addrs = newValue.map((x: number) => ({server: nodes.filter(i => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
+      }
+    },
+    "inbound.type"(newValue) {
+      if (this.HasInData.includes(newValue) && this.inbound.nodes) {
+        let nodes = (Data().nodes?? [])
+        this.inbound.addrs = this.inbound.nodes.map(x => ({server: nodes.filter(i => i.id === x)[0].addr, server_port: this.inbound.listen_port, remarl: ""}))
+      }
+    }
   },
   components: {
     Listen, InTls, Hysteria2, Naive, Direct, Shadowsocks,

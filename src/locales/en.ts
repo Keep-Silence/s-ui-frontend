@@ -95,6 +95,7 @@ export default {
     },
   },
   objects: {
+    nodes: "Nodes",
     inbound: "Inbound",
     client: "Client",
     outbound: "Outbound",
