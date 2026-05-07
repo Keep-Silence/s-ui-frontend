@@ -50,6 +50,7 @@ export default {
     dns: "DNS",
     admins: "管理员",
     settings: "设置",
+    nodes: "节点管理"
   },
   main: {
     tiles: "信息卡",
@@ -95,6 +96,7 @@ export default {
     },
   },
   objects: {
+    node: "节点",
     inbound: "入站",
     client: "客户端",
     outbound: "出站",
@@ -196,6 +198,11 @@ export default {
     clashSub: "Clash 订阅",
     mixedPort: "混合入站端口",
     tun: "Tun 入站",
+  },
+  node: {
+    name: "名称",
+    addr: "地址",
+    token: "令牌"
   },
   client: {
     name: "名称",

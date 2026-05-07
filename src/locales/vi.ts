@@ -32,9 +32,9 @@ export default {
     invalidData: "Dữ liệu khỏ hợp lệ",
   },
   theme: {
-    light: "Nhật",
-    dark: "Xanh",
-    system: "Phòng bán",
+    light: "Sáng",
+    dark: "Tối",
+    system: "Hệ thống",
   },
   pages: {
     login: "Đăng nhập",
@@ -50,9 +50,10 @@ export default {
     dns: "DNS",
     admins: "Quản trị viên",
     settings: "Cài đặt",
+    nodes: "Nút"
   },
   main: {
-    tiles: "OHB",
+    tiles: "Thẻ thông tin",
     gauges: "Đồng hồ đo",
     charts: "Biểu đồ",
     infos: "Thông tin",
@@ -95,6 +96,7 @@ export default {
     },
   },
   objects: {
+    node: "Nút",
     inbound: "Đầu Vào",
     client: "Máy Khách hàng",
     outbound: "Đầu Ra",
@@ -196,6 +198,11 @@ export default {
     clashSub: "Clash đăng ký",
     mixedPort: "Cổng khóa",
     tun: "Tun đăng ký",
+  },
+  node: {
+    name: "Tên",
+    addr: "Địa chỉ",
+    token: "Mã thông báo"
   },
   client: {
     name: "Tên",

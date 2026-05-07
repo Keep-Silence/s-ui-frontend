@@ -50,6 +50,7 @@ export default {
     dns: "DNS",
     admins: "Admins",
     settings: "Settings",
+    nodes: "Nodes"
   },
   main: {
     tiles: "Tiles",
@@ -95,7 +96,7 @@ export default {
     },
   },
   objects: {
-    nodes: "Nodes",
+    node: "Node",
     inbound: "Inbound",
     client: "Client",
     outbound: "Outbound",
@@ -197,6 +198,11 @@ export default {
     clashSub: "Clash Subscription",
     mixedPort: "Mixed Inbound Port",
     tun: "Tun Inbound",
+  },
+  node: {
+    name: "Name",
+    addr: "Addr",
+    token: "Token"
   },
   client: {
     name: "Name",

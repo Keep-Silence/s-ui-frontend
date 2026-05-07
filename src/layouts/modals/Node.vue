@@ -6,23 +6,23 @@
     scrollable
   >
     <v-form @submit.prevent="save">
-      <v-card rounded="xl" elevation="5" :title="(id ?? 0) > 0 ? $t('actions.edit') + ' Node' : $t('actions.add') + ' Node'">
+      <v-card rounded="xl" elevation="5" :title="(id ?? 0) > 0 ? $t('actions.edit') + ' ' + $t('objects.node') : $t('actions.add') + ' ' + $t('objects.node')">
         <v-card-text>
           <v-text-field
             v-model="node.name"
-            label="Name"
+            :label="$t('node.name')"
             density="comfortable"
             required
           ></v-text-field>
           <v-text-field
             v-model="node.addr"
-            label="Addr"
+            :label="$t('node.addr')"
             density="comfortable"
             required
           ></v-text-field>
           <v-text-field
             v-model="node.token"
-            label="Token"
+            :label="$t('node.token')"
             density="comfortable"
             required
           ></v-text-field>

@@ -50,6 +50,7 @@ export default {
     dns: "DNS",
     admins: "Администраторы",
     settings: "Настройки",
+    nodes: "Узлы"
   },
   main: {
     tiles: "Плитки",
@@ -95,6 +96,7 @@ export default {
     },
   },
   objects: {
+    node: "Узел",
     inbound: "Входящий",
     client: "Клиент",
     outbound: "Исходящий",
@@ -137,7 +139,6 @@ export default {
     close: "Закрыть",
     restartApp: "Перезапустить приложение",
     restartSb: "Перезапустить Singbox",
-    apply: "Применить",
   },
   login: {
     title: "Вход",
@@ -197,6 +198,11 @@ export default {
     clashSub: "Clash подписка",
     mixedPort: "Смешанный порт",
     tun: "Tun инбоунд",
+  },
+  node: {
+    name: "Имя",
+    addr: "Адрес",
+    token: "Токен"
   },
   client: {
     name: "Имя",

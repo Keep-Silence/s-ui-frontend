@@ -50,6 +50,7 @@ export default {
     dns: "DNS",
     admins: "ادمین‌ها",
     settings: "پیکربندی",
+    nodes: "گره‌ها"
   },
   main: {
     tiles: "کاشی‌ها",
@@ -95,6 +96,7 @@ export default {
     },
   },
   objects: {
+    node: "گره",
     inbound: "ورودی‌",
     client: "کاربر",
     outbound: "خروجی‌",
@@ -196,6 +198,11 @@ export default {
     clashSub: "سابسکریپشن CLASH",
     mixedPort: "ورودی Mixed",
     tun: "ورودی TUN",
+  },
+  node: {
+    name: "نام",
+    addr: "آدرس",
+    token: "توکن"
   },
   client: {
     name: "نام",

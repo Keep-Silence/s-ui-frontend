@@ -28,7 +28,12 @@ const routes = [
         path: '/clients',
         name: 'pages.clients',
         component: () => import('@/views/Clients.vue'),
-      },  
+      },
+      {
+        path: '/nodes',
+        name: 'pages.nodes',
+        component: () => import('@/views/Nodes.vue'),
+      },
       {
         path: '/outbounds',
         name: 'pages.outbounds',

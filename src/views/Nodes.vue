@@ -15,7 +15,7 @@
   />
   <v-row>
     <v-col cols="12" justify="center" align="center">
-      <v-btn color="primary" @click="showModal(0)">{{ $t('actions.add') }} Node</v-btn>
+      <v-btn color="primary" @click="showModal(0)">{{ $t('actions.add') }}</v-btn>
     </v-col>
   </v-row>
   <v-row>
@@ -23,11 +23,11 @@
       <v-card rounded="xl" elevation="5" min-width="200" :title="item.name">
         <v-card-text>
           <v-row>
-            <v-col>Addr</v-col>
+            <v-col>{{ $t('node.addr') }}</v-col>
             <v-col>{{ item.addr }}</v-col>
           </v-row>
           <v-row>
-            <v-col>Token</v-col>
+            <v-col>{{ $t('node.token') }}</v-col>
             <v-col>{{ item.token }}</v-col>
           </v-row>
           <v-row>

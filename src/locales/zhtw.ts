@@ -50,6 +50,7 @@ export default {
     dns: "DNS",
     admins: "管理員",
     settings: "設置",
+    nodes: "節點管理"
   },
   main: {
     tiles: "信息卡",
@@ -59,7 +60,7 @@ export default {
     gauge: {
       cpu: "CPU 儀表",
       mem: "RAM 儀表",
-      dsk: "Disk 儀表",
+      dsk: "磁碟儀表",
       swp: "Swap 儀表",
     },
     chart: {
@@ -67,7 +68,7 @@ export default {
       mem: "RAM 監視器",
       net: "網絡帶寬",
       pnet: "網絡數據包",
-      dio: "Disk I/O",
+      dio: "磁碟 I/O",
     },
     info: {
       sys: "系統信息",
@@ -95,6 +96,7 @@ export default {
     },
   },
   objects: {
+    node: "節點",
     inbound: "入站",
     client: "客戶端",
     outbound: "出站",
@@ -107,14 +109,14 @@ export default {
     dnsrule: "DNS 規則",
     user: "用戶",
     tag: "標簽",
-    listen: "聽",
+    listen: "監聽",
     dial: "撥號",
     tls: "TLS",
     multiplex: "多路復用",
     transport: "傳輸",
-    headers: "方法",
-    key: "鑰匙",
-    value: "價值",
+    headers: "標頭",
+    key: "鍵",
+    value: "值",
   },
   actions: {
     action: "操作",
@@ -196,6 +198,11 @@ export default {
     clashSub: "Clash 訂閱",
     mixedPort: "混合入站端口",
     tun: "Tun 入站",
+  },
+  node: {
+    name: "名稱",
+    addr: "地址",
+    token: "令牌"
   },
   client: {
     name: "名稱",
