@@ -161,7 +161,7 @@ export default {
         const labels = <string[]>[]
 
         // 获取所有唯一的 node 值
-        const nodes = [...new Set(obj.map(o => o.node).filter(n => n))]
+        const nodes = [...new Set(obj.map(o => o.node))]
 
         // 为每个 node 创建上传和下载数据数组
         const nodeData = new Map<string, { uplink: (number | null)[], downlink: (number | null)[] }>()
